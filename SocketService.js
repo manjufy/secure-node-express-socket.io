@@ -8,7 +8,14 @@ class SocketService {
 
         switch(process.env.NODE_EV) {
             case 'development':
-                // define development https server
+                this.server = https.createServer({
+                    key: fs.readFileSync(
+                        path.resolve(process.env.SSL_DEV_KEY || './ssl/localhost.key')
+                    ),
+                    cert: fs.readFileSync(
+                        path.resolve(process.env.SSL_DEV_CERT || './ssl/localhost.crt')
+                    )
+                }, app);
                 break;
             default:
                 // define production https server
