@@ -6,7 +6,7 @@ class SocketService {
     constructor(app, port) {
         this.port = port;
 
-        switch(process.env.NODE_EV) {
+        switch(process.env.NODE_ENV) {
             case 'development':
                 this.server = https.createServer({
                     key: fs.readFileSync(
@@ -32,11 +32,13 @@ class SocketService {
                     requestCert: true,
                     rejectUnauthorized: false
                 });
+                break;
         }
     }
 
     initServer() {
-
+        this.io = require('socket.io')(this.server);
+        this.server.listen(this.port);
     }
 }
 

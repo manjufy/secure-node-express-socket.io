@@ -20,7 +20,7 @@ To setup the local development to work secure connections
 ```
 Node Version: Refer to .nvmrc
 npm install
-npm run start
+npm run start:dev / npm run start:prod
 http://localhost:3000
 ```
 

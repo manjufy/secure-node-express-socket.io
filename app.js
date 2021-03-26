@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const SocketService = require('./SocketService');
 
 var app = express();
 
@@ -37,5 +38,18 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// SocketService
+const socket = new SocketService(app, 3003);
+socket.initServer();
+
+socket.io.on('connection', socket => {
+  console.log('client connected');
+
+  // more events
+  socket.on('disconnect', reason => {
+    console.log('Client disconnected', reason);
+  })
+})
 
 module.exports = app;
