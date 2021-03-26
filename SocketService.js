@@ -18,7 +18,20 @@ class SocketService {
                 }, app);
                 break;
             default:
-                // define production https server
+                // with nginx configuration
+                this.server = https.createServer({
+                    key: fs.readFileSync(
+                        process.env.SSL_PDT_KEY || '/etc/nginx/ssl/domain.key'
+                    ),
+                    cert: fs.readFileSync(
+                        process.env.SSL_PDT_CERT || '/etc/nginx/ssl/domain.crt'
+                    ),
+                    ca: fs.readFileSync(
+                        process.env.SSL_PDT_CA || '/etc/nginx/ssl/domain.ca-bundle',
+                    ),
+                    requestCert: true,
+                    rejectUnauthorized: false
+                });
         }
     }
 
